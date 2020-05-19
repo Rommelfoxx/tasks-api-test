@@ -53,5 +53,30 @@ public class APITest {
 		
 	}
 	
+	@Test
+	public void deveARemoverTarefaComSucesso() {
+		
+		//Inserir
+		
+		Integer id = RestAssured.given()
+		.body("{\"task\":\"Teste via Api remover\", \"dueDate\":\"2020-12-30\"}")
+		.contentType(ContentType.JSON)
+		.when()
+			.post("/todo")
+		.then()
+		//	.log() .all()
+			.statusCode(201)
+			.extract().path("id");
+
+		System.out.println(id);
+		
+		//Remover 
+		RestAssured.given()
+		.when()
+		.delete("/todo/"+id)
+		.then()
+		.statusCode(204);
+	}
+	
 }
 
